@@ -61,3 +61,51 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 # kur
 # kur
+
+1. Клонирование проекта
+   bash
+   git clone https://github.com/your-repo/real-estate-system.git
+   cd real-estate-system
+2. Установка зависимостей PHP
+   bash
+   composer install
+3. Создание файла окружения
+   bash
+   cp .env.example .env
+   Отредактируй .env:
+
+text
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nexusdb
+DB_USERNAME=root
+DB_PASSWORD=
+4. Генерация ключа приложения
+   bash
+   php artisan key:generate
+5. Создание символической ссылки для хранилища (storage)
+   bash
+   php artisan storage:link
+6. Выполнение миграций
+   bash
+   php artisan migrate
+7. Заполнение начальных данных (сидеры)
+   bash
+   php artisan db:seed
+   Это создаст:
+
+Администратора: admin@site.ru / пароль: admin123
+
+Статусы заявок: "новая", "в работе", "завершена"
+
+Типы объектов: "продажа", "аренда"
+
+8. Очистка кэша
+   bash
+   php artisan config:cache
+   php artisan route:cache
+   php artisan view:cache
+9. Запуск сервера разработки
+   bash
+   php artisan serve

@@ -16,6 +16,4 @@ class Password extends Model
         return $this->hasOne(User::class, 'passwordid');
     }
 
-    // Методы-хелперы для паролей, например:
-    // set, verify, update, проверка возраста — добавляй под свои нужды
 }

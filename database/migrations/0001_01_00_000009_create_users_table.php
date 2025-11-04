@@ -6,23 +6,25 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('second_name');
+            $table->string('second_name')->nullable(); // необязательно, но оставлю (если используется)
             $table->string('surname')->nullable();
             $table->string('email')->unique();
             $table->string('phone')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->foreignId('password_id')->nullable()->constrained('password')->onDelete('cascade');
+
+            // ВАЖНО: для авторизации Laravel, нужен ОДНО столбец password
+            $table->string('password');
+
+            // Остальные связи делай nullable, если нужны (но стандартная auth ими не пользуется!)
             $table->foreignId('role_id')->nullable()->constrained('role')->onDelete('cascade');
             $table->foreignId('avatar_id')->nullable()->constrained('avatar')->onDelete('cascade');
             $table->foreignId('reviews_id')->nullable()->constrained('reviews')->onDelete('cascade');
+
             $table->rememberToken();
             $table->timestamps();
         });
@@ -43,9 +45,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('users');
