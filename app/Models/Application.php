@@ -15,6 +15,7 @@ class Application extends Model
         'type_buy_id',
         'status_id',
         'user_id',
+        'phone',
     ];
 
     public function user()

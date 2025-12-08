@@ -26,7 +26,13 @@
                     <dt class="col-sm-4">Дата создания</dt>
                     <dd class="col-sm-8">{{ $application->created_at->format('d.m.Y H:i') }}</dd>
 
-                    @if ($application->path_image)
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Телефон:</strong></label>
+                        <p>{{ $application->phone ?? 'Не указан' }}</p>
+                    </div>
+
+
+                @if ($application->path_image)
                         <dt class="col-sm-4">Фотография</dt>
                         <dd class="col-sm-8">
                             <img src="{{ asset('storage/' . $application->path_image) }}"

@@ -80,6 +80,7 @@ class ApplicationController extends Controller
     {
         $data = $request->validate([
             'address'     => 'required|string|max:255',
+            'phone' => 'required|string|min:10|max:20',
             'count_rooms' => 'required|integer|min:1',
             'price'       => 'required|integer|min:0',
             'path_image'  => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',

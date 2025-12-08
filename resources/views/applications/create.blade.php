@@ -54,6 +54,14 @@
                         @enderror
                     </div>
                     <div class="mb-3">
+                        <label for="phone" class="form-label">Номер телефона <span class="text-danger">*</span></label>
+                        <input type="tel" name="phone" id="phone" class="form-control @error('phone') is-invalid @enderror"
+                               placeholder="+7 (999) 123-45-67" value="{{ old('phone') }}" required>
+                        @error('phone')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
                         <label for="path_image" class="form-label">Фотография (опционально, jpg/png/gif, до 2МБ)</label>
                         <input type="file" class="form-control @error('path_image') is-invalid @enderror" name="path_image" id="path_image" accept="image/*">
                         @error('path_image')
