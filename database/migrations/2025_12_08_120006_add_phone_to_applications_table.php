@@ -13,10 +13,10 @@ return new class extends Migration
         });
     }
 
-//    public function down(): void
-//    {
-//        Schema::table('applications', function (Blueprint $table) {
-//            $table->dropColumn('phone');
-//        });
-//    }
+    public function down(): void
+    {
+        Schema::table('applications', function (Blueprint $table) {
+            $table->dropColumn('phone');
+        });
+    }
 };

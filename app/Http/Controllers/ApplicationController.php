@@ -111,4 +111,18 @@ class ApplicationController extends Controller
 
         return view('applications.show', compact('application'));
     }
+    public function adminDestroy($id)
+    {
+        // только админ
+        if (!Auth::user()->isAdmin()) {
+            abort(403, 'Доступ запрещён.');
+        }
+
+        $application = Application::findOrFail($id);
+        $application->delete();
+
+        return redirect()
+            ->route('admin.applications.index')
+            ->with('success', 'Заявка удалена.');
+    }
 }

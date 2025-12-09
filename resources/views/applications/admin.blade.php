@@ -42,22 +42,32 @@
                         <td>
                             @if ($app->path_image)
                                 <img src="{{ asset('storage/' . $app->path_image) }}" alt="Фото" style="max-width: 80px;">
+                            @else
+                                —
                             @endif
                         </td>
                         <td>
                             @if ($app->status_id == 1)
-                                <form action="{{ route('admin.applications.approve', $app->id) }}" method="POST" style="display:inline">
+                                <form action="{{ route('admin.applications.approve', $app->id) }}" method="POST" style="display:inline;">
                                     @csrf
-                                    <button type="submit" class="btn btn-success btn-sm">Одобрить</button>
+                                    <button type="submit" class="btn btn-success btn-sm mb-1">Одобрить</button>
                                 </form>
-                                <form action="{{ route('admin.applications.decline', $app->id) }}" method="POST" style="display:inline">
+                                <br>
+                                <form action="{{ route('admin.applications.decline', $app->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm">Отклонить</button>
+                                    <button type="submit" class="btn btn-danger btn-sm mb-1">Отклонить</button>
                                 </form>
-                            @else
-                                <span class="text-muted">—</span>
+                                <br>
                             @endif
+
+                            <form action="{{ route('admin.applications.destroy', $app->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Удалить эту заявку?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="bi bi-trash"></i> Удалить
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach

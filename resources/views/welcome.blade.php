@@ -9,36 +9,32 @@
                 <h1 class="mb-5">Одобренные заявки</h1>
 
                 @if($applications->count() > 0)
-                    <div class="row">
+                    <div class="row justify-content-center">
                         @foreach($applications as $application)
-                            <div class="col-md-4 mb-4">
-                                <a href="{{ route('applications.show', $application->id) }}" style="text-decoration: none; color: inherit;">
+                            <div class="col-lg-4 col-md-6 mb-4 d-flex justify-content-center">
+                                <a href="{{ route('applications.show', $application->id) }}" style="text-decoration: none; color: inherit; width: 100%; max-width: 420px;">
                                     <div class="card h-100 shadow-sm" style="cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;">
                                         <div class="card-body">
-                                            <h5 class="card-title">{{ $application->title }}</h5>
-                                            <p class="card-text text-muted">{{ Str::limit($application->description, 100) }}</p>
+                                            <h5 class="card-title">{{ $application->address }}</h5>
 
-                                            <div class="row mb-3">
+                                            <div class="mb-2">
+                                                <small class="text-muted">
+                                                    <i class="bi bi-geo-alt"></i>
+                                                    {{ $application->address ?? 'Нет адреса' }}
+                                                </small>
+                                            </div>
+
+                                            <div class="row mb-2">
                                                 <div class="col-6">
-                                                    <small class="text-muted">
-                                                        <i class="bi bi-geo-alt"></i>
-                                                        {{ $application->address ?? 'Нет адреса' }}
-                                                    </small>
+                                                    <small><strong>Цена:</strong> {{ $application->price ? number_format($application->price, 0, ',', ' ') . ' ₽' : 'Не указана' }}</small>
                                                 </div>
                                                 <div class="col-6 text-end">
                                                     <span class="badge bg-success">{{ $application->status?->name ?? 'Нет статуса' }}</span>
                                                 </div>
                                             </div>
 
-                                            <div class="row mb-3">
-                                                <div class="col-6">
-                                                    <small><strong>Цена:</strong> {{ $application->price ? number_format($application->price, 0, ',', ' ') . ' ₽' : 'Не указана' }}</small>
-                                                </div>
-                                                <div class="row mb-3">
-                                                    <div class="col-6">
-                                                        <small><strong>Телефон:</strong> {{ $application->phone ?? 'Не указан' }}</small>
-                                                    </div>
-                                                <div class="col-6">
+                                            <div class="row mb-2">
+                                                <div class="col-12">
                                                     <small><strong>Тип:</strong> {{ $application->type_buy?->name ?? 'Не указан' }}</small>
                                                 </div>
                                             </div>
