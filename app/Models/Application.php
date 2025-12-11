@@ -6,16 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Application extends Model
 {
-    protected $table = 'applications';
     protected $fillable = [
+        'user_id',
+        'title',
+        'description',
+        'phone',
         'address',
-        'count_rooms',
         'price',
-        'path_image',
         'type_buy_id',
         'status_id',
-        'user_id',
-        'phone',
+        'count_rooms',
+        'path_image',
     ];
 
     public function user()
@@ -31,5 +32,21 @@ class Application extends Model
     public function typeBuy()
     {
         return $this->belongsTo(TypeBuy::class, 'type_buy_id');
+    }
+
+    /**
+     * Пользователи, добавившие это в избранное
+     */
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'favorites', 'application_id', 'user_id')->withTimestamps();
+    }
+
+    /**
+     * Проверить добавлена ли в избранное текущим пользователем
+     */
+    public function isFavoritedBy($userId)
+    {
+        return $this->favoritedBy()->where('user_id', $userId)->exists();
     }
 }

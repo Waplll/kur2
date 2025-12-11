@@ -20,7 +20,10 @@
             <ul class="navbar-nav me-auto">
                 <li class="nav-item"><a class="nav-link text-white" href="/">Главная</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('reviews.index') }}">Отзывы</a></li>
-                @auth
+                <li class="nav-item"><a class="nav-link text-white" href="{{ route('favorites.index') }}">
+                        <i class="bi bi-star-fill"></i> Избранное
+                    </a></li>
+            @auth
                     @if(!Auth::user()->isAdmin())
                         <li class="nav-item"><a class="nav-link text-white" href="{{ route('applications.index') }}">Мои заявки</a></li>
                         <li class="nav-item"><a class="nav-link text-white" href="{{ route('applications.create') }}">Создать заявку</a></li>

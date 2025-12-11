@@ -33,7 +33,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
     public function applications()
     {
         return $this->hasMany(Application::class, 'user_id');
@@ -54,6 +53,21 @@ class User extends Authenticatable
         return $this->hasMany(Reviews::class, 'user_id');
     }
 
+    /**
+     * Избранные заявки пользователя
+     */
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class, 'user_id');
+    }
+
+    /**
+     * Избранные заявки (через pivot таблицу)
+     */
+    public function favoriteApplications()
+    {
+        return $this->belongsToMany(Application::class, 'favorites', 'user_id', 'application_id')->withTimestamps();
+    }
 
     /**
      * Проверка, является ли пользователь администратором

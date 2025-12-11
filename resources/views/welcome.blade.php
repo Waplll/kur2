@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Главная - Недвижимость')
+@section('title', 'Главная - Нексус')
 
 @section('content')
     <div class="container mt-5">
@@ -8,14 +8,46 @@
             <div class="col-md-12">
                 <h1 class="mb-5">Одобренные заявки</h1>
 
+                @if(session('success'))
+                    <div class="alert alert-success alert-dismissible fade show">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+
+                @if(session('info'))
+                    <div class="alert alert-info alert-dismissible fade show">
+                        {{ session('info') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+
                 @if($applications->count() > 0)
                     <div class="row justify-content-center">
                         @foreach($applications as $application)
                             <div class="col-lg-4 col-md-6 mb-4 d-flex justify-content-center">
-                                <a href="{{ route('applications.show', $application->id) }}" style="text-decoration: none; color: inherit; width: 100%; max-width: 420px;">
-                                    <div class="card h-100 shadow-sm" style="cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;">
+                                <a href="{{ route('applications.show', $application->id) }}"
+                                   style="text-decoration: none; color: inherit; width: 100%; max-width: 420px;">
+                                    <div class="card h-100 shadow-sm"
+                                         style="cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;">
                                         <div class="card-body">
-                                            <h5 class="card-title">{{ $application->address }}</h5>
+                                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                                <h5 class="card-title mb-0">{{ $application->address }}</h5>
+
+                                                @auth
+                                                    <form action="{{ route('favorites.add', $application->id) }}"
+                                                          method="POST"
+                                                          style="display: inline;"
+                                                          onclick="event.stopPropagation();">
+                                                        @csrf
+                                                        <button type="submit"
+                                                                class="btn btn-sm btn-warning"
+                                                                title="Добавить в избранное">
+                                                            <i class="bi bi-star"></i>
+                                                        </button>
+                                                    </form>
+                                                @endauth
+                                            </div>
 
                                             <div class="mb-2">
                                                 <small class="text-muted">
@@ -26,16 +58,24 @@
 
                                             <div class="row mb-2">
                                                 <div class="col-6">
-                                                    <small><strong>Цена:</strong> {{ $application->price ? number_format($application->price, 0, ',', ' ') . ' ₽' : 'Не указана' }}</small>
+                                                    <small>
+                                                        <strong>Цена:</strong>
+                                                        {{ $application->price ? number_format($application->price, 0, ',', ' ') . ' ₽' : 'Не указана' }}
+                                                    </small>
                                                 </div>
                                                 <div class="col-6 text-end">
-                                                    <span class="badge bg-success">{{ $application->status?->name ?? 'Нет статуса' }}</span>
+                                                    <span class="badge bg-success">
+                                                        {{ $application->status?->status ?? 'Нет статуса' }}
+                                                    </span>
                                                 </div>
                                             </div>
 
                                             <div class="row mb-2">
                                                 <div class="col-12">
-                                                    <small><strong>Тип:</strong> {{ $application->type_buy?->name ?? 'Не указан' }}</small>
+                                                    <small>
+                                                        <strong>Комнат:</strong>
+                                                        {{ $application->count_rooms ?? 'Не указано' }}
+                                                    </small>
                                                 </div>
                                             </div>
 
@@ -69,13 +109,13 @@
             overflow: hidden;
         }
 
+        a .card {
+            transition: all 0.3s ease;
+        }
+
         a .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15) !important;
-        }
-
-        a .card {
-            transition: all 0.3s ease;
         }
     </style>
 @endsection

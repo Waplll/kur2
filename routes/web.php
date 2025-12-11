@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\FavoriteController;
 
 // Авторизация
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -19,7 +20,7 @@ Route::get('/', [ApplicationController::class, 'approvedList'])->name('home');
 // Отзывы (публичные)
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
 
-// Отзывы создание (auth) - ПЕРЕД show!
+// Отзывы создание (auth)
 Route::middleware(['auth'])->group(function () {
     Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
@@ -28,7 +29,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 });
 
-// Отзывы просмотр (публичные) - ПОСЛЕ create!
+// Отзывы просмотр (публичные)
 Route::get('/reviews/{review}', [ReviewController::class, 'show'])->name('reviews.show');
 
 // Заявки (auth)
@@ -48,6 +49,15 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/profile/avatar', [ProfileController::class, 'deleteAvatar'])->name('profile.deleteAvatar');
 });
 
+// Избранные заявки (auth)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+    Route::post('/favorites/{application}/add', [FavoriteController::class, 'add'])->name('favorites.add');
+    Route::delete('/favorites/{application}/remove', [FavoriteController::class, 'remove'])->name('favorites.remove');
+    Route::post('/favorites/{application}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+});
+
+
 // Админ (auth)
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/applications', [ApplicationController::class, 'adminIndex'])->name('admin.applications.index');
@@ -55,4 +65,3 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/admin/applications/{id}/decline', [ApplicationController::class, 'decline'])->name('admin.applications.decline');
     Route::delete('/admin/applications/{id}', [ApplicationController::class, 'adminDestroy'])->name('admin.applications.destroy');
 });
-
